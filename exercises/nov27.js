@@ -1,6 +1,7 @@
 const canvasSketch = require('canvas-sketch');
+const math = require('canvas-sketch-util/math');
 
-const settings = {
+const settings = { // this is an Object
   dimensions: [ 2048, 2048 ]
 };
 
@@ -27,15 +28,15 @@ const sketch = () => {
     context.fillStyle = 'white';
     context.fillRect(0, 0, width, height);
 
-    points.forEach(([ u,v ]) =>{
-      const x = u * width;
-      const y = v * height;
-
-      context.beginPath();
-      context.arc(x,y, 100, 0, Math.PI * 2, false);
-      context.fillStyle= "black";
-      context.fill();
-    });
+    // points.forEach(([ u,v ]) =>{
+    //   const x = u * width;
+    //   const y = v * height;
+    //
+    //   context.beginPath();
+    //   context.arc(x,y, 100, 0, Math.PI * 2, false);
+    //   context.fillStyle= "black";
+    //   context.fill();
+    // });
   };
 };
 
