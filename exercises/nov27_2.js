@@ -14,7 +14,7 @@ const sketch = ({ width, height }) => {
   const spacing = Math.min(width, height) * .05;
   const radius = Math.min(width, height) * .25;
 
-  for(let j = 0; j < count; j++){
+  for(let j = 0; j < count; j++){cd
     const r = radius + j * spacing;
     const circle = [];
     for(let i = 0; i < steps; i++){
