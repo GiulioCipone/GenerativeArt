@@ -44,8 +44,36 @@ const sketch = () => {
       }
       lines.push(line);
     }
+    //random.setSeed(512);
+    //random.setSeed(523);
+    const palette = random.pick(palettes); //pick a random palette
+    const newColours = [];
+    let colour;
 
-    const palette = random.pick(palettes);
+    function hexToRGBA(hex, opacity) {
+return 'rgba(' + (hex = hex.replace('#', '')).match(new RegExp('(.{' + hex.length/3 + '})', 'g')).map(function(l)
+ { return parseInt(hex.length%2 ? l+l : l, 16) }).concat(opacity||1).join(',') + ')';
+}
+
+    for(let i = 0; i <= palette.length; i ++){
+      const hex = palette[i];
+      hexToRGBA(hex,1);
+      colour = hexToRGBA;
+      newColours.push(colour);
+    }
+    console.log(newColours);
+
+/*  Make a funciton that turn hex color isnto rgba
+    const hexToRgb = (hex) => {
+    var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return result ? {
+        r: parseInt(result[1], 16),
+        g: parseInt(result[2], 16),
+        b: parseInt(result[3], 16)
+    } : null;
+}*/
+
+
 
     const drawTriangle = (pointA, pointB, pointC) => {
       context.beginPath();
@@ -54,7 +82,7 @@ const sketch = () => {
       context.lineTo(pointC.x, pointC.y);
       context.lineTo(pointA.x, pointA.y);
       context.closePath();
-      context.fillStyle = random.pick(palette);
+      context.fillStyle =
       context.fill();
       context.stroke();
     }
