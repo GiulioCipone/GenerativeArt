@@ -1,5 +1,7 @@
 const canvasSketch = require('canvas-sketch');
 const { lerp } = require('canvas-sketch-util/math');
+const random = require('canvas-sketch-util/random');
+const palettes = require('nice-color-palettes');
 
 const settings = {
   dimensions: [ 2048, 2048 ]
@@ -27,13 +29,14 @@ const sketch = () => {
     const lines = [];
     const gap = width / 7;
     let dot;
-    const odd = false;
+    let odd = false;
 
     for( let y = gap / 2; y < height; y += gap){
-      //odd = !odd;
+      odd = !odd;
       line = [];
-      for(let x = gap / 2; x < width; x += gap){
-        dot = {x: x + (odd ? gap/2 : 0), y: y};
+      for(let x = gap / 4; x < width; x += gap){
+        dot = {x: x + (Math.random()*.8 - .4) * gap  + (odd ? gap/2 : 0),
+      y: y + (Math.random()*.8 - .4) * gap};  // (odd ? gap/2 : 0) this means: IF odd is true gap/2 ELSE zero
         line.push(dot);
         context.beginPath();
          context.arc(dot.x, dot.y, 10, 0, 2 * Math.PI, true);
@@ -41,6 +44,34 @@ const sketch = () => {
       }
       lines.push(line);
     }
+
+    const palette = random.pick(palettes);
+
+    const drawTriangle = (pointA, pointB, pointC) => {
+      context.beginPath();
+      context.moveTo(pointA.x, pointA.y);
+      context.lineTo(pointB.x, pointB.y);
+      context.lineTo(pointC.x, pointC.y);
+      context.lineTo(pointA.x, pointA.y);
+      context.closePath();
+      context.fillStyle = random.pick(palette);
+      context.fill();
+      context.stroke();
+    }
+
+    let dotLine;
+    for(let y = 0; y < lines.length - 1; y++){
+      odd = !odd;
+      dotLine = [];
+      for(let i = 0; i < lines[y].length; i++) {
+      dotLine.push(odd ? lines[y][i] : lines[y+1][i]);
+      dotLine.push(odd ? lines[y+1][i] : lines[y][i]);
+    }
+    for(let i = 0; i < dotLine.length - 2; i++) {
+      drawTriangle(dotLine[i], dotLine[i+1], dotLine[i+2]);
+    }
+    }
+
     //console.log(lines);
 
     // context.fillStyle = 'white';
