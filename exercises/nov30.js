@@ -17,15 +17,25 @@ const sketch = () => {
       for(let y = 0; y < count; y ++){
         const u = x / (count - 1);
         const v = y / (count - 1);
+        const 
         points.push({
           color: 'black',//random.pick(palette),
-          radius: Math.abs(random.gaussian() * .02),
+          radius:  .04,//Math.abs(random.gaussian() * .02),
           position: [ u, v ]
         });
       }
     }
     return points;
   };
+
+  /*  NOISE NOISE NOISE  */
+  // v = noise2D(u, y) V value between -1 and 1 and slowly varies with coordinates
+  /*
+  const v = noise2D(x, y); now is between -1 and 1
+  const n = v * .5 + .5;  map to 0..1
+  const L = Math.floor(n * 100);
+  const hsl = `hsl(0, 0%, ${L}%)`;
+  */
 
   const points = createGrid();
 
@@ -47,9 +57,9 @@ const sketch = () => {
       const y = lerp(margin, height - margin, v);
 
       //context.beginPath();
-      context.fillStyle = color;
+      context.fillStyle = hsl;
       context.font = ` ${radius * width}px "Georgia" `;
-      context.fillText( 'Alice',x, y);
+      context.fillText( ' · ',x, y);
     });
   };
 };
