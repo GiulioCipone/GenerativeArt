@@ -46,9 +46,11 @@ const sketch = () => {
     }
     //random.setSeed(512);
     //random.setSeed(523);
-    const palette = random.pick(palettes); //pick a random palette
+
+    const palette = random.pick(palettes); //pick a random palette of hex colours
     const coloursRGB = [];
 
+    //for loop converts every hex colour into RGB and populates the coloursRGB array
     for(let i = 0; i <= palette.length; i ++){
       //const hex = palette[i];
       const hexToRgb = (hex) => {
@@ -57,12 +59,14 @@ const sketch = () => {
           r: parseInt(result[1], 16),
           g: parseInt(result[2], 16),
           b: parseInt(result[3], 16)
-          } : null;
+        } : 0;
       }
       coloursRGB.push(hexToRgb( palette[i] ));
     }
-var color = random.pick(coloursRGB)
-console.log(color);
+
+var color = random.pick(coloursRGB);
+//console.log(color);
+
 /*
 -array of hex colours
 -function that converts them and each time it converts one it pushes it to a new array of RGBcolours
@@ -78,7 +82,12 @@ console.log(color);
       context.lineTo(pointC.x, pointC.y);
       context.lineTo(pointA.x, pointA.y);
       context.closePath();
-      context.fillStyle = rgb'color';
+      //context.fillStyle = "rgba( " + color.r + ", " + color.g + ", " + color.b + ", 1)";
+       const fill = context.createLinearGradient(pointA.x, pointA.y, pointC.x, pointC.y);
+       fill.addColorStop(0, "rgba( " + color.r + ", " + color.g + ", " + color.b + ", .3)");
+       fill.addColorStop(1, "rgba( " + color.r + ", " + color.g + ", " + color.b + ", 1)");
+       context.fillStyle = fill;
+      //context.fillStyle = random.pick(palette);
       context.fill();
       context.stroke();
     }
