@@ -12,15 +12,15 @@ const sketch = () => {
   const palette = random.pick(palettes);
   const createGrid = () => {
     const points = [];
-    const count = 30;
+    const count = 170;
     for(let x = 0; x < count; x++){
       for(let y = 0; y < count; y ++){
         const u = x / (count - 1);
         const v = y / (count - 1);
-        const 
         points.push({
-          color: 'black',//random.pick(palette),
-          radius:  .04,//Math.abs(random.gaussian() * .02),
+          color: random.noise2D(u, v),//random.pick(palette),
+          radius:  .04,
+          rotation: random.noise2D(u, v),//Math.abs(random.gaussian() * .02),
           position: [ u, v ]
         });
       }
@@ -49,6 +49,7 @@ const sketch = () => {
       const {
         color,
         radius,
+        rotation,
         position
       } = data;
       const [ u, v ]= position;
@@ -56,10 +57,19 @@ const sketch = () => {
       const x = lerp(margin, width - margin, u);
       const y = lerp(margin, height - margin, v);
 
+      const n = color * .5 + .5;
+      const L = Math.floor(n * 100);
+      const hsl = `hsl(25, 100%, ${L}%)`;
+
       //context.beginPath();
+      context.save();
       context.fillStyle = hsl;
-      context.font = ` ${radius * width}px "Georgia" `;
-      context.fillText( ' · ',x, y);
+      context.font =  '80px Arial' ;
+      context.translate(x,y);
+      context.rotate(rotation * 2);
+      context.fillText( ' – ', 0, 0);
+
+      context.restore();
     });
   };
 };
